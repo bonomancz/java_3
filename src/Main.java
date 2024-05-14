@@ -151,9 +151,9 @@ public class Main {
             }
             retVal.append(bookingManager.getCzDateFormat(booking.gsCheckIn().toString()));
             retVal.append(" - ").append(bookingManager.getCzDateFormat(booking.gsCheckOut().toString()));
-            retVal.append(", ").append(booking.gsGuestsList().getFirst().gsName());
             retVal.append(", ").append(booking.getBookingLength());
-            retVal.append(" Nights,  ").append(booking.gsGuestsList().getFirst().gsSurName());
+            retVal.append(" Nights, ").append(booking.gsGuestsList().getFirst().gsName());
+            retVal.append(" ").append(booking.gsGuestsList().getFirst().gsSurName());
             retVal.append(" (Birthday: ").append(bookingManager.getCzDateFormat(booking.gsGuestsList().getFirst().gsBirthDay().toString()));
             retVal.append("), Room: ").append(booking.gsRoom().gsId());
             retVal.append(" [Guests: ").append(booking.getNumberOfGuests());

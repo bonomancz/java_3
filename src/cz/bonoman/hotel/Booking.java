@@ -24,15 +24,11 @@ public class Booking {
     }
 
     public int getBookingLength(){
-        int retVal;
-        retVal = (int)ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
-        return retVal;
+        return (int)ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
     }
 
     public int getPrice(){
-        int retVal;
-        retVal = this.getBookingLength() * this.gsRoom().gsPrice();
-        return retVal;
+        return this.getBookingLength() * this.gsRoom().gsPrice();
     }
 
     // getters, setters
