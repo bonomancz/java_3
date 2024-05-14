@@ -1,2 +1,3 @@
-# java_3
-java 3
+# JAVA 3
+3. domaci ukol Java Engeto
+4. 
