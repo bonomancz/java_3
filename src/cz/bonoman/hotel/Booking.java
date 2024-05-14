@@ -1,6 +1,7 @@
 package cz.bonoman.hotel;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class Booking {
@@ -20,6 +21,18 @@ public class Booking {
 
     public int getNumberOfGuests(){
         return this.guestsList.size();
+    }
+
+    public int getBookingLength(){
+        int retVal;
+        retVal = (int)ChronoUnit.DAYS.between(this.checkIn, this.checkOut);
+        return retVal;
+    }
+
+    public int getPrice(){
+        int retVal;
+        retVal = this.getBookingLength() * this.gsRoom().gsPrice();
+        return retVal;
     }
 
     // getters, setters

@@ -46,6 +46,9 @@ public class BookingManager {
         return retVal;
     }
 
+    public int getBookingCount(){
+        return this.bookingList.size();
+    }
 
     public String printGuestList(){
         StringBuilder retVal = new StringBuilder();

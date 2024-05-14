@@ -52,8 +52,9 @@ public class Main {
         retVal += bookingManager.printRoomList() + "\n";
 
         // define bookings
-        retVal += "### BOOKINGS:\n";
         fillBookings();
+
+        retVal += "### BOOKINGS: (" + bookingManager.getBookingCount() + " bookings)\n";
         retVal += bookingManager.printBookingList() + "\n";
 
         // working bookings
@@ -65,8 +66,24 @@ public class Main {
         retVal += bookingManager.getAverageGuests() + "\n\n";
 
         // formated bookings list
-        retVal += "### FORMATED BOOKINGS:\n";
+        retVal += "### FORMATED BOOKINGS - ALL: (" + bookingManager.getBookingCount() + " bookings)\n";
         retVal += printAllBookingsFormated() + "\n";
+
+        // first N holiday bookings list
+        retVal += "### FIRST 8 HOLIDAY BOOKINGS:\n";
+        retVal += getFirstNHolidayBookings(8) + "\n";
+
+        // guest statisticks
+        retVal += "### GUEST STATISTICS:\n";
+        retVal += printGuestStatistics() + "\n";
+
+        // booking length
+        retVal += "### BOOKING LENGTH:\n";
+        retVal += "Appended in booking listings above....\n\n";
+
+        // get price
+        retVal += "### GET PRICE:\n";
+        retVal += "Appended in booking listings above....\n";
 
         System.out.println(retVal);
     }
@@ -135,7 +152,8 @@ public class Main {
             retVal.append(bookingManager.getCzDateFormat(booking.gsCheckIn().toString()));
             retVal.append(" - ").append(bookingManager.getCzDateFormat(booking.gsCheckOut().toString()));
             retVal.append(", ").append(booking.gsGuestsList().getFirst().gsName());
-            retVal.append(" ").append(booking.gsGuestsList().getFirst().gsSurName());
+            retVal.append(", ").append(booking.getBookingLength());
+            retVal.append(" Nights,  ").append(booking.gsGuestsList().getFirst().gsSurName());
             retVal.append(" (Birthday: ").append(bookingManager.getCzDateFormat(booking.gsGuestsList().getFirst().gsBirthDay().toString()));
             retVal.append("), Room: ").append(booking.gsRoom().gsId());
             retVal.append(" [Guests: ").append(booking.getNumberOfGuests());
@@ -143,9 +161,68 @@ public class Main {
             retVal.append(", Balcony: ").append(balcony);
             retVal.append("] with price: ").append(booking.gsRoom().gsPrice());
             retVal.append(" CZK/night");
+            retVal.append(", Vacation price: ").append(booking.getPrice());
+            retVal.append(" CZK/booking");
             retVal.append(" (Vacation type: ").append(vacation);
             retVal.append(")\n");
         }
+        return retVal.toString();
+    }
+
+    private static String getFirstNHolidayBookings(int n){
+        StringBuilder retVal = new StringBuilder();
+        int counter = 0;
+        for(Booking booking : bookingManager.getBookings()){
+            String vacation = "Working";
+            if(booking.gsTypeOfVacation() == 2 && counter < n) {
+                vacation = "Holiday";
+
+                String seaView = "No";
+                if (booking.gsRoom().gsSeaView()) {
+                    seaView = "Yes";
+                }
+                String balcony = "No";
+                if (booking.gsRoom().gsBalcony()) {
+                    balcony = "Yes";
+                }
+
+                retVal.append(bookingManager.getCzDateFormat(booking.gsCheckIn().toString()));
+                retVal.append(" - ").append(bookingManager.getCzDateFormat(booking.gsCheckOut().toString()));
+                retVal.append(", ").append(booking.getBookingLength());
+                retVal.append(" Nights, ").append(booking.gsGuestsList().getFirst().gsName());
+                retVal.append(" ").append(booking.gsGuestsList().getFirst().gsSurName());
+                retVal.append(" (Birthday: ").append(bookingManager.getCzDateFormat(booking.gsGuestsList().getFirst().gsBirthDay().toString()));
+                retVal.append("), Room: ").append(booking.gsRoom().gsId());
+                retVal.append(" [Guests: ").append(booking.getNumberOfGuests());
+                retVal.append(", Sea view: ").append(seaView);
+                retVal.append(", Balcony: ").append(balcony);
+                retVal.append("] with price: ").append(booking.gsRoom().gsPrice());
+                retVal.append(" CZK/night");
+                retVal.append(", Vacation price: ").append(booking.getPrice());
+                retVal.append(" CZK/booking");
+                retVal.append(" (Vacation type: ").append(vacation);
+                retVal.append(")\n");
+                counter++;
+            }
+        }
+        return retVal.toString();
+    }
+
+    private static String printGuestStatistics(){
+        StringBuilder retVal = new StringBuilder();
+        int oneManBooking = 0, twoPeopleBooking = 0, morePeopleBooking = 0;
+        for(Booking booking : bookingManager.getBookings()){
+            if(booking.getNumberOfGuests() == 1){
+                oneManBooking += 1;
+            }else if(booking.getNumberOfGuests() == 2){
+                twoPeopleBooking += 1;
+            }else if(booking.getNumberOfGuests() > 2){
+                morePeopleBooking += 1;
+            }
+        }
+        retVal.append("One man booking: ").append(oneManBooking).append("\n");
+        retVal.append("Two people booking: ").append(twoPeopleBooking).append("\n");
+        retVal.append("More people booking: ").append(morePeopleBooking).append("\n");
         return retVal.toString();
     }
 }
