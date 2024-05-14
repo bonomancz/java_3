@@ -143,7 +143,7 @@ public class Main {
             retVal.append(", Balcony: ").append(balcony);
             retVal.append("] with price: ").append(booking.gsRoom().gsPrice());
             retVal.append(" CZK/night");
-            retVal.append(" (Vacation: ").append(vacation);
+            retVal.append(" (Vacation type: ").append(vacation);
             retVal.append(")\n");
         }
         return retVal.toString();
