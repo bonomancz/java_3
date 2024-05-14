@@ -6,17 +6,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Manager {
+public class BookingManager {
     private final List<Guest> guestList = new ArrayList<>();
     private final List<Room> roomList = new ArrayList<>();
     private final List<Booking> bookingList = new ArrayList<>();
 
-    public Manager(){}
+    public BookingManager(){}
 
     // ### GUESTS ###
+
+    // ### BOOKING MANAGER
     public void guestListAdd(Guest input){
         this.guestList.add(input);
     }
+
+    public Booking getBooking(int item){return this.bookingList.get(item);}
+
+    public List<Booking> getBookings(){return this.bookingList;}
+
+    public void clearBookings(){this.bookingList.clear();}
+
+    public int getNumberOfWorkingBookings(){
+        int retVal = 0;
+        for(Booking booking : this.bookingList){
+            if(booking.gsTypeOfVacation() == 1){
+                retVal += 1;
+            }
+        }
+        return retVal;
+    }
+
+    public double getAverageGuests(){
+        double retVal;
+        int count = 0;
+        for(Booking booking : this.bookingList){
+            count += booking.gsGuestsList().size();
+        }
+        retVal = Math.round((double)count / this.bookingList.size() * 100.0) / 100.0;
+        return retVal;
+    }
+
 
     public String printGuestList(){
         StringBuilder retVal = new StringBuilder();
@@ -87,7 +116,7 @@ public class Manager {
     }
 
     // ### BOOKING ###
-    public void bookingListAdd(Booking input){
+    public void addBooking(Booking input){
         this.bookingList.add(input);
     }
 
@@ -107,8 +136,13 @@ public class Manager {
     public String printBookingList(){
         StringBuilder retVal = new StringBuilder();
         for(Booking booking : this.bookingList){
+            String typeOfVacation = "Working vacation";
+            if(booking.gsTypeOfVacation() == 2){
+                typeOfVacation = "Holiday vacation";
+            }
             retVal.append("Check-In: ").append(this.getCzDateFormat(booking.gsCheckIn().toString()));
             retVal.append(", Check-Out: ").append(this.getCzDateFormat(booking.gsCheckOut().toString()));
+            retVal.append(", ").append(typeOfVacation);
             retVal.append(", Room ID: ").append(booking.gsRoom().gsId());
 
             StringBuilder guestName = new StringBuilder();
@@ -122,4 +156,7 @@ public class Manager {
         return retVal.toString();
     }
 
+    // getters, setters
+    public List<Guest> gsGuestList(){return this.guestList;}
+    public List<Room> gsRoomList(){return this.roomList;}
 }
