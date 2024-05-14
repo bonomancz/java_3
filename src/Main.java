@@ -100,7 +100,7 @@ public class Main {
         bookingManager.addBooking(booking4);
 
         LocalDate checkIn, checkOut;
-        Booking booking99;
+        Booking bookingX;
         for(int i = 0; i < 10; i++){
             switch(i) {
                 case 1: checkIn = LocalDate.of(2023,8,3); checkOut = LocalDate.of(2023,8,4);
@@ -124,8 +124,8 @@ public class Main {
                 default:checkIn = LocalDate.of(2023,8,1); checkOut = LocalDate.of(2023,8,2);
                         break;
             }
-            booking99 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(4))), bookingManager.gsRoomList().get(1), checkIn, checkOut, 2, bookingManager.getNextBookingId());
-            bookingManager.addBooking(booking99);
+            bookingX = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(4))), bookingManager.gsRoomList().get(1), checkIn, checkOut, 2, bookingManager.getNextBookingId());
+            bookingManager.addBooking(bookingX);
         }
 
         Booking booking15 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(4))) , bookingManager.gsRoomList().get(2), LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 31), 2, bookingManager.getNextBookingId());
@@ -173,7 +173,7 @@ public class Main {
         StringBuilder retVal = new StringBuilder();
         int counter = 0;
         for(Booking booking : bookingManager.getBookings()){
-            String vacation = "Working";
+            String vacation;
             if(booking.gsTypeOfVacation() == 2 && counter < n) {
                 vacation = "Holiday";
 
