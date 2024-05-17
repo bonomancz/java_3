@@ -28,20 +28,14 @@ public class Booking {
     }
 
     public int getPrice(){
-        return this.getBookingLength() * this.gsRoom().gsPrice();
+        return this.getBookingLength() * this.gsRoom().getPrice();
     }
 
     // getters, setters
-    public List<Guest> gsGuestsList(){return this.guestsList;}
-    //public void gsGuestsList(List<Guest> input){this.guestsList = input;}
+    public List<Guest> getGuestsList(){return this.guestsList;}
     public Room gsRoom(){return this.room;}
-    //public void gsRoom(Room input){this.room = input;}
-    public int gsTypeOfVacation(){return this.typeOfVacation;}
-    //public void gsTypeOfVacation(int input){this.gsTypeOfVacation = input;}
-    public LocalDate gsCheckIn(){return this.checkIn;}
-    //public void gsCheckIn(LocalDate input){this.checkIn = input;}
-    public LocalDate gsCheckOut(){return this.checkOut;}
-    //public void gsCheckOut(LocalDate input){this.checkOut = input;}
-    public int gsId(){return this.id;}
-    //public void gsId(int input){this.id = input;}
+    public int isWorkingStay(){return this.typeOfVacation;}
+    public LocalDate getCheckIn(){return this.checkIn;}
+    public LocalDate getCheckOut(){return this.checkOut;}
+    public int getId(){return this.id;}
 }

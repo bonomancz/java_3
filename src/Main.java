@@ -63,15 +63,15 @@ public class Main {
 
         // average guests
         retVal += "### AVERAGE GUESTS:\n";
-        retVal += bookingManager.getAverageGuests() + "\n\n";
+        retVal += Math.round(bookingManager.getAverageGuests() * 100.0) / 100.0 + "\n\n";
 
         // formated bookings list
         retVal += "### FORMATED BOOKINGS - ALL: (" + bookingManager.getBookingCount() + " bookings)\n";
-        retVal += printAllBookingsFormated() + "\n";
+        retVal += printBookingsFormated(bookingManager.getBookings()) + "\n";
 
         // first N holiday bookings list
         retVal += "### FIRST 8 HOLIDAY BOOKINGS:\n";
-        retVal += getFirstNHolidayBookings(8) + "\n";
+        retVal += printBookingsFormated(bookingManager.getFirstNHolidayBookings(8)) + "\n";
 
         // guest statisticks
         retVal += "### GUEST STATISTICS:\n";
@@ -90,120 +90,50 @@ public class Main {
 
 
     private static void fillBookings(){
-        Booking booking1 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(0))) , bookingManager.gsRoomList().get(0), LocalDate.of(2021, 7, 19), LocalDate.of(2021, 7, 26), 1, bookingManager.getNextBookingId());
+        Booking booking1 = new Booking(new ArrayList<>(List.of(bookingManager.getGuestList().get(0))) , bookingManager.getRoomList().get(0), LocalDate.of(2021, 7, 19), LocalDate.of(2021, 7, 26), 1, bookingManager.getNextBookingId());
         bookingManager.addBooking(booking1);
-        Booking booking2 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(0), bookingManager.gsGuestList().get(1))) , bookingManager.gsRoomList().get(2), LocalDate.of(2021, 9, 1), LocalDate.of(2021, 9, 14), 2, bookingManager.getNextBookingId());
+        Booking booking2 = new Booking(new ArrayList<>(List.of(bookingManager.getGuestList().get(0), bookingManager.getGuestList().get(1))) , bookingManager.getRoomList().get(2), LocalDate.of(2021, 9, 1), LocalDate.of(2021, 9, 14), 2, bookingManager.getNextBookingId());
         bookingManager.addBooking(booking2);
-        Booking booking3 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(2))) , bookingManager.gsRoomList().get(2), LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 7), 1, bookingManager.getNextBookingId());
+        Booking booking3 = new Booking(new ArrayList<>(List.of(bookingManager.getGuestList().get(2))) , bookingManager.getRoomList().get(2), LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 7), 1, bookingManager.getNextBookingId());
         bookingManager.addBooking(booking3);
-        Booking booking4 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(3))) , bookingManager.gsRoomList().get(1), LocalDate.of(2023, 7, 18), LocalDate.of(2023, 7, 21), 2, bookingManager.getNextBookingId());
+        Booking booking4 = new Booking(new ArrayList<>(List.of(bookingManager.getGuestList().get(3))) , bookingManager.getRoomList().get(1), LocalDate.of(2023, 7, 18), LocalDate.of(2023, 7, 21), 2, bookingManager.getNextBookingId());
         bookingManager.addBooking(booking4);
 
         LocalDate checkIn, checkOut;
         Booking bookingX;
-        for(int i = 0; i < 10; i++){
-            switch(i) {
-                case 1: checkIn = LocalDate.of(2023,8,3); checkOut = LocalDate.of(2023,8,4);
-                        break;
-                case 2: checkIn = LocalDate.of(2023,8,5); checkOut = LocalDate.of(2023,8,6);
-                        break;
-                case 3: checkIn = LocalDate.of(2023,8,7); checkOut = LocalDate.of(2023,8,8);
-                        break;
-                case 4: checkIn = LocalDate.of(2023,8,9); checkOut = LocalDate.of(2023,8,10);
-                        break;
-                case 5: checkIn = LocalDate.of(2023,8,11); checkOut = LocalDate.of(2023,8,12);
-                        break;
-                case 6: checkIn = LocalDate.of(2023,8,13); checkOut = LocalDate.of(2023,8,14);
-                        break;
-                case 7: checkIn = LocalDate.of(2023,8,15); checkOut = LocalDate.of(2023,8,16);
-                        break;
-                case 8: checkIn = LocalDate.of(2023,8,17); checkOut = LocalDate.of(2023,8,18);
-                        break;
-                case 9: checkIn = LocalDate.of(2023,8,19); checkOut = LocalDate.of(2023,8,20);
-                        break;
-                default:checkIn = LocalDate.of(2023,8,1); checkOut = LocalDate.of(2023,8,2);
-                        break;
-            }
-            bookingX = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(4))), bookingManager.gsRoomList().get(1), checkIn, checkOut, 2, bookingManager.getNextBookingId());
+        for(int i = 1; i < 21; i+=2){
+            checkIn = LocalDate.of(2023,8, i); checkOut = LocalDate.of(2023,8, i+1);
+            bookingX = new Booking(new ArrayList<>(List.of(bookingManager.getGuestList().get(4))), bookingManager.getRoomList().get(1), checkIn, checkOut, 2, bookingManager.getNextBookingId());
             bookingManager.addBooking(bookingX);
         }
 
-        Booking booking15 = new Booking(new ArrayList<>(List.of(bookingManager.gsGuestList().get(4))) , bookingManager.gsRoomList().get(2), LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 31), 2, bookingManager.getNextBookingId());
+        Booking booking15 = new Booking(new ArrayList<>(List.of(bookingManager.getGuestList().get(4))) , bookingManager.getRoomList().get(2), LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 31), 2, bookingManager.getNextBookingId());
         bookingManager.addBooking(booking15);
     }
 
 
-    private static String printAllBookingsFormated(){
+    private static String printBookingsFormated(List<Booking> inputList){
         StringBuilder retVal = new StringBuilder();
 
-        for(Booking booking : bookingManager.getBookings()){
-            String seaView = "No";
-            if(booking.gsRoom().gsSeaView()){
-                seaView = "Yes";
+        for(Booking booking : inputList){
+            String seaView = "ne";
+            if(booking.gsRoom().getSeaView()){
+                seaView = "ano";
             }
-            String balcony = "No";
-            if(booking.gsRoom().gsBalcony()){
-                balcony = "Yes";
+            String balcony = "ne";
+            if(booking.gsRoom().getBalcony()){
+                balcony = "ano";
             }
-            String vacation = "Working";
-            if(booking.gsTypeOfVacation() == 2){
-                vacation = "Holiday";
-            }
-            retVal.append(bookingManager.getCzDateFormat(booking.gsCheckIn().toString()));
-            retVal.append(" - ").append(bookingManager.getCzDateFormat(booking.gsCheckOut().toString()));
-            retVal.append(", ").append(booking.getBookingLength());
-            retVal.append(" Nights, ").append(booking.gsGuestsList().getFirst().gsName());
-            retVal.append(" ").append(booking.gsGuestsList().getFirst().gsSurName());
-            retVal.append(" (Birthday: ").append(bookingManager.getCzDateFormat(booking.gsGuestsList().getFirst().gsBirthDay().toString()));
-            retVal.append("), Room: ").append(booking.gsRoom().gsId());
-            retVal.append(" [Guests: ").append(booking.getNumberOfGuests());
-            retVal.append(", Sea view: ").append(seaView);
-            retVal.append(", Balcony: ").append(balcony);
-            retVal.append("] with price: ").append(booking.gsRoom().gsPrice());
-            retVal.append(" CZK/night");
-            retVal.append(", Vacation price: ").append(booking.getPrice());
-            retVal.append(" CZK/booking");
-            retVal.append(" (Vacation type: ").append(vacation);
-            retVal.append(")\n");
-        }
-        return retVal.toString();
-    }
-
-    private static String getFirstNHolidayBookings(int n){
-        StringBuilder retVal = new StringBuilder();
-        int counter = 0;
-        for(Booking booking : bookingManager.getBookings()){
-            String vacation;
-            if(booking.gsTypeOfVacation() == 2 && counter < n) {
-                vacation = "Holiday";
-
-                String seaView = "No";
-                if (booking.gsRoom().gsSeaView()) {
-                    seaView = "Yes";
-                }
-                String balcony = "No";
-                if (booking.gsRoom().gsBalcony()) {
-                    balcony = "Yes";
-                }
-
-                retVal.append(bookingManager.getCzDateFormat(booking.gsCheckIn().toString()));
-                retVal.append(" - ").append(bookingManager.getCzDateFormat(booking.gsCheckOut().toString()));
-                retVal.append(", ").append(booking.getBookingLength());
-                retVal.append(" Nights, ").append(booking.gsGuestsList().getFirst().gsName());
-                retVal.append(" ").append(booking.gsGuestsList().getFirst().gsSurName());
-                retVal.append(" (Birthday: ").append(bookingManager.getCzDateFormat(booking.gsGuestsList().getFirst().gsBirthDay().toString()));
-                retVal.append("), Room: ").append(booking.gsRoom().gsId());
-                retVal.append(" [Guests: ").append(booking.getNumberOfGuests());
-                retVal.append(", Sea view: ").append(seaView);
-                retVal.append(", Balcony: ").append(balcony);
-                retVal.append("] with price: ").append(booking.gsRoom().gsPrice());
-                retVal.append(" CZK/night");
-                retVal.append(", Vacation price: ").append(booking.getPrice());
-                retVal.append(" CZK/booking");
-                retVal.append(" (Vacation type: ").append(vacation);
-                retVal.append(")\n");
-                counter++;
-            }
+            retVal.append(bookingManager.getCzDateFormat(booking.getCheckIn().toString()));
+            retVal.append(" až ").append(bookingManager.getCzDateFormat(booking.getCheckOut().toString()));
+            retVal.append(": ").append(booking.getGuestsList().getFirst().getName());
+            retVal.append(" ").append(booking.getGuestsList().getFirst().getSurName());
+            retVal.append(" (").append(bookingManager.getCzDateFormat(booking.getGuestsList().getFirst().getBirthDay().toString()));
+            retVal.append(")[").append(booking.getNumberOfGuests());
+            retVal.append(", ").append(seaView);
+            retVal.append("] za ").append(booking.gsRoom().getPrice());
+            retVal.append(" Kč");
+            retVal.append("\n");
         }
         return retVal.toString();
     }

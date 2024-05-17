@@ -14,12 +14,8 @@ public class Guest {
     }
 
     // getters, setters
-    public String gsName(){return this.name;}
-    //public void gsName(String input){this.name = input;}
-    public String gsSurName(){return this.surName;}
-    //public void gsSurName(String input){this.surName = input;}
-    public LocalDate gsBirthDay(){return this.birthDay;}
-    //public void gsBirthDay(LocalDate input){this.birthDay = input;}
-    public int gsId(){return this.id;}
-    //public void gsId(int input){this.id = input;}
+    public String getName(){return this.name;}
+    public String getSurName(){return this.surName;}
+    public LocalDate getBirthDay(){return this.birthDay;}
+    public int getId(){return this.id;}
 }
